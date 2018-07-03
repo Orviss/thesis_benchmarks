@@ -8,6 +8,7 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.infra.Blackhole;
 
 import java.io.IOException;
 
@@ -26,29 +27,69 @@ public class TSTLookupBenchmark {
         }
     }
 
-    @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    public void oneLetterPrefixLookup(MyState state) throws IOException {
-        LookupUtils.oneLetterPrefixLookup(state.lookup);
+    @State(Scope.Benchmark)
+    public static class MyStateLinux {
+
+        private TSTLookup lookup;
+
+        @Setup(Level.Trial)
+        public void setup() throws IOException {
+            lookup = new TSTLookup(LookupUtils.getTempDir(), "suffix");
+
+            LookupUtils.buildLinux(lookup);
+        }
     }
 
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
-    public void twoLetterPrefixLookup(MyState state) throws IOException {
-        LookupUtils.twoLetterPrefixLookup(state.lookup);
+    public void oneLetterPrefixLookup(MyState state, Blackhole blackhole) throws IOException {
+        LookupUtils.oneLetterPrefixLookup(state.lookup, blackhole);
     }
 
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
-    public void nonPrefixLookup(MyState state) throws IOException {
-        LookupUtils.nonPrefixLookup(state.lookup);
+    public void twoLetterPrefixLookup(MyState state, Blackhole blackhole) throws IOException {
+        LookupUtils.twoLetterPrefixLookup(state.lookup, blackhole);
     }
 
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
-    public void buildTime() throws IOException {
+    public void nonPrefixLookup(MyState state, Blackhole blackhole) throws IOException {
+        blackhole.consume(LookupUtils.nonPrefixLookup(state.lookup));
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
+    public void buildTime(Blackhole blackhole) throws IOException {
         TSTLookup lookup = new TSTLookup(LookupUtils.getTempDir(), "suffix");
         LookupUtils.build(lookup);
+        blackhole.consume(lookup);
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
+    public void oneLetterPrefixLookupLinux(MyStateLinux state, Blackhole blackhole) throws IOException {
+        LookupUtils.oneLetterPrefixLookup(state.lookup, blackhole);
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
+    public void twoLetterPrefixLookupLinux(MyStateLinux state, Blackhole blackhole) throws IOException {
+        LookupUtils.twoLetterPrefixLookup(state.lookup, blackhole);
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
+    public void nonPrefixLookupLinux(MyStateLinux state, Blackhole blackhole) throws IOException {
+        blackhole.consume(LookupUtils.nonPrefixLookup(state.lookup));
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
+    public void buildTimeLinux(Blackhole blackhole) throws IOException {
+        TSTLookup lookup = new TSTLookup(LookupUtils.getTempDir(), "suffix");
+        LookupUtils.buildLinux(lookup);
+        blackhole.consume(lookup);
     }
 
 }

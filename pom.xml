@@ -59,8 +59,14 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
         <dependency>
             <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>7.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-suggest</artifactId>
-            <version>7.3.0</version>
+            <version>7.3.1</version>
         </dependency>
 
         <dependency>
@@ -72,7 +78,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
         <dependency>
             <groupId>net.openhft</groupId>
             <artifactId>chronicle-map</artifactId>
-            <version>3.14.5</version>
+            <version>3.15.1</version>
         </dependency>
 
         <dependency>
