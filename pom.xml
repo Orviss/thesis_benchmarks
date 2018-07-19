@@ -79,12 +79,43 @@ THE POSSIBILITY OF SUCH DAMAGE.
             <groupId>net.openhft</groupId>
             <artifactId>chronicle-map</artifactId>
             <version>3.15.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.java</groupId>
+                    <artifactId>tools</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.lmdbjava</groupId>
             <artifactId>lmdbjava</artifactId>
             <version>0.6.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.opensolaris.opengrok</groupId>
+            <artifactId>opengrok</artifactId>
+            <version>1.1-rc33</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.zeroturnaround</groupId>
+            <artifactId>zt-zip</artifactId>
+            <version>1.13</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.25</version>
         </dependency>
 
     </dependencies>
